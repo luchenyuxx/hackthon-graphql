@@ -2,7 +2,6 @@ package co.ledger.blockchain.graphql.module
 
 import cats.effect._
 import co.ledger.blockchain.graphql.controller.{GraphQLController, InternalController}
-import co.ledger.blockchain.graphql.service.GraphQLService
 import com.typesafe.scalalogging.StrictLogging
 import fs2.Stream
 import io.prometheus.client.CollectorRegistry
@@ -16,9 +15,8 @@ object Server extends StrictLogging {
                 (implicit F: ConcurrentEffect[IO], timer: Timer[IO]): Stream[IO, ExitCode] = {
 
     lazy val collectorRegistry: CollectorRegistry = new CollectorRegistry
-    lazy val graphQLService = new GraphQLService(client)
     lazy val internalController = new InternalController(collectorRegistry)
-    lazy val graphQLController = new GraphQLController(graphQLService)
+    lazy val graphQLController = new GraphQLController(client)
 
     val controllers = List(
       internalController,

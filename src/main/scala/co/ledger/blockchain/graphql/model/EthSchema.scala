@@ -6,16 +6,6 @@ import co.ledger.blockchain.graphql.utils.crypto.Hex
 
 object EthSchema {
 
-  case class Schema(
-                     query: Query
-                   )
-
-  case class Query(
-                    blocks: List[Block],
-                    addresses: List[Address],
-                    transactions: List[Transaction]
-                  )
-
   case class Block(
                     hash: Hex,
                     height: Int,
@@ -23,9 +13,9 @@ object EthSchema {
                     txs: List[Hex] // Should be [Transactions]
                   )
 
-  case class Address(
+  case class Balance(
                       balance: BigInt,
-                      transactions: List[Transaction],
+                      address: Hex,
                     )
 
   case class Transaction(
