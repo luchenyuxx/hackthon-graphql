@@ -1,0 +1,61 @@
+schema {
+    query: Query
+}
+
+type Query {
+    blocks: [Block]
+    addresses: [Address]
+    transactions: [Transaction]
+}
+
+type Block {
+    hash: String
+    height: Int
+    time: String
+    transactions: [String] # Should be [Transactions]
+}
+
+type Address {
+    balance: Int
+    nonce: Int
+    transactions: [Transaction]
+    pendingTransactions: [PendingTransaction]
+    estimatedGasLimit: Int
+}
+
+type Transaction {
+    id: String
+    hash: String
+    receivedAt: String
+    lockTime: Int
+    fees: Int
+    inputs: [TransactionInput]
+    outputs: [TransactionOutput]
+    block: Block
+}
+
+type TransactionInput {
+    outputTxId: String,
+    outputIndex: Int,
+    value: String,
+    address: [String],
+    scriptSig: String,
+    txinwitness: [String],
+    sequence: Int
+}
+
+type TransactionOutput {
+    outputIndex: Int
+    value: Int
+    address: String
+    scriptHex: String
+}
+
+type PendingTransaction {
+    id: String
+    hash: String
+    lockTime: Int
+    fees: Int
+    inputs: [TransactionInput]
+    outputs: [TransactionOutput]
+}
