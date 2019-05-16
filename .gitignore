@@ -1,0 +1,7 @@
+.DS_Store
+.idea
+assembly
+logs
+target
+project/target
+application.local.conf

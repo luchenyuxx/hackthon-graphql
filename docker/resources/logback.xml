@@ -1,0 +1,11 @@
+<configuration>
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder immediateFlush="true">
+            <pattern>%date %thread [%level] %logger{0} - %msg%n</pattern>
+        </encoder>
+    </appender>
+    <logger name="dsense-gateway" level="info" />
+    <root level="warn">
+        <appender-ref ref="STDOUT" />
+    </root>
+</configuration>

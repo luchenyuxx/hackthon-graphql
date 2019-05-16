@@ -1,0 +1,3 @@
+http:
+  http://localhost:8000/_health:
+    status: 200
