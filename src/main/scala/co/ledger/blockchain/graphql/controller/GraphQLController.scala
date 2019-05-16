@@ -31,18 +31,6 @@ class GraphQLController(graphQLService: GraphQLService) extends HttpController {
   }
 }
 
-//class FetchScheme extends ExecutionScheme {
-//  override type Result[Ctx, Res] = Ctx => Fetch[IO, Res]
-//
-//  override def failed[Ctx, Res](error: Throwable): FetchScheme.this.type = ???
-//
-//  override def onComplete[Ctx, Res](result: FetchScheme.this.type)(op: => Unit)(implicit ec: ExecutionContext): FetchScheme.this.type = ???
-//
-//  override def flatMapFuture[Ctx, Res, T](future: Future[T])(resultFn: T => FetchScheme.this.type)(implicit ec: ExecutionContext): FetchScheme.this.type = ???
-//
-//  override def extended: Boolean = ???
-//}
-
 case class GraphQLQuery(query: String, operationName: Option[String], variables: Option[Json])
 
 object GraphQLQuery {

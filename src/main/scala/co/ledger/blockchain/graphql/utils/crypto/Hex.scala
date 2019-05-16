@@ -5,6 +5,7 @@ import cats.instances.try_._
 import cats.syntax.either._
 import cats.kernel.{Eq, Monoid}
 import cats.syntax.traverse._
+import io.circe.{Decoder, Encoder}
 
 import scala.util.Try
 import scala.util.hashing.MurmurHash3
@@ -76,4 +77,6 @@ object Hex {
   }
 
   implicit val eq: Eq[Hex] = (x: Hex, y: Hex) => x == y
+  implicit val decoder: Decoder[Hex] = Decoder.decodeString.emap(fromString)
+  implicit val encoder: Encoder[Hex] = Encoder.encodeString.contramap(_.hexString)
 }
