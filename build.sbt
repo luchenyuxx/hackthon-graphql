@@ -65,6 +65,7 @@ lazy val versions = new {
   val pureConfig = "0.10.1"
   val scalaLogging = "3.9.0"
   val scalaTest = "3.0.5"
+  val sangria = "1.4.2"
 }
 
 lazy val root = (project in file("."))
@@ -80,7 +81,7 @@ lazy val root = (project in file("."))
       "io.circe"                     %% "circe-generic"                  % versions.circe,
       "io.circe"                     %% "circe-parser"                   % versions.circe,
       "io.circe"                     %% "circe-generic-extras"           % versions.circe,
-      "org.http4s"                   %% "http4s-async-http-client"      % versions.http4s,
+      "org.http4s"                   %% "http4s-async-http-client"       % versions.http4s,
       "org.http4s"                   %% "http4s-blaze-server"            % versions.http4s,
       "org.http4s"                   %% "http4s-circe"                   % versions.http4s,
       "org.http4s"                   %% "http4s-dsl"                     % versions.http4s,
@@ -88,8 +89,12 @@ lazy val root = (project in file("."))
       "ch.qos.logback"                % "logback-classic"                % versions.logback,
       "com.github.pureconfig"        %% "pureconfig"                     % versions.pureConfig,
       "com.typesafe.scala-logging"   %% "scala-logging"                  % versions.scalaLogging,
+      "org.sangria-graphql"          %% "sangria"                        % versions.sangria,
+      "org.sangria-graphql"          %% "sangria-circe"                  % "1.2.1",
+      "com.47deg"                    %% "fetch"                          % "1.0.0",
 
-      // Tests dependencies
+
+// Tests dependencies
       "org.mockito"                  %% "mockito-scala"                  % versions.mockito % "test",
       "org.scalatest"                %% "scalatest"                      % versions.scalaTest % "it,test",
     )
