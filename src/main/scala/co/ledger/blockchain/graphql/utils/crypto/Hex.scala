@@ -12,7 +12,7 @@ import scala.util.hashing.MurmurHash3
 
 case class Hex(bytes: Array[Byte]) {
 
-  def hexString: String = bytes.map("%02x" format _).mkString
+  def hexString: String = "0x" + bytes.map("%02x" format _).mkString
 
   def size: Int = bytes.length
 

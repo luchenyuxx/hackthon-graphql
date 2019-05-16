@@ -96,7 +96,7 @@ lazy val root = (project in file("."))
 
 // Tests dependencies
       "org.mockito"                  %% "mockito-scala"                  % versions.mockito % "test",
-      "org.scalatest"                %% "scalatest"                      % versions.scalaTest % "it,test",
+      "org.scalatest"                %% "scalatest"                      % versions.scalaTest % "it,test"
     )
   )
 

@@ -20,7 +20,7 @@ object EthSchema {
                     hash: Hex,
                     height: Int,
                     time: Instant,
-                    transactions: List[Hex] // Should be [Transactions]
+                    txs: List[Hex] // Should be [Transactions]
                   )
 
   case class Address(
@@ -48,7 +48,7 @@ object EthSchema {
                             contract: Hex,
                             from: Hex,
                             to: Hex,
-                            count: Int,
+                            count: BigInt,
                             decimal: Option[Int],
                             symbol: Option[String]
                           )
