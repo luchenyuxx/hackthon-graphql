@@ -5,3 +5,5 @@ logs
 target
 project/target
 application.local.conf
+.bloop/
+.metals/
