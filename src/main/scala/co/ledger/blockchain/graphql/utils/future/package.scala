@@ -4,7 +4,7 @@ import java.util.concurrent.{CompletableFuture, CompletionException}
 
 import cats.effect.IO
 
-import scala.concurrent.CancellationException
+import scala.concurrent.{CancellationException, Future}
 
 package object future {
   def fromJavaFuture[A](cf: => CompletableFuture[A]): IO[A] = {
@@ -19,5 +19,9 @@ package object future {
       })
       IO(cfx.cancel(true))
     })
+  }
+
+  implicit class FutureOps[T](from: => Future[T]) {
+    def toIO: IO[T] = IO.fromFuture(IO(from))
   }
 }

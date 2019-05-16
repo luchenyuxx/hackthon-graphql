@@ -4,6 +4,6 @@ import cats.effect.IO
 import org.http4s.client.Client
 
 class GraphQLService(client: Client[IO]) {
-  // avoid fetal warning
+  // avoid fatal warning
   def test() = println(client)
 }
