@@ -13,7 +13,7 @@ import org.http4s.circe.CirceEntityDecoder._
 import org.http4s.circe.CirceEntityEncoder._
 import org.http4s.client.Client
 import sangria.execution._
-import sangria.execution.deferred.{DeferredResolver, Fetcher, FetcherCache, FetcherConfig, HasId}
+import sangria.execution.deferred.{DeferredResolver, Fetcher, HasId}
 import sangria.marshalling.circe._
 import sangria.parser.QueryParser
 import sangria.schema.{Field, _}
@@ -39,25 +39,19 @@ class GraphQLController(client: Client[IO]) extends HttpController {
 }
 
 object EthereumQuery {
-  val cache = FetcherCache.simple
-
   implicit val hasIdBlock: HasId[Block, String] = (value: Block) => value.hash.hexString
   implicit val hasHeightIdBlock: HasId[Block, Int] = (value: Block) => value.height
-  val blocksFetcher = Fetcher(
-    config = FetcherConfig.caching(cache),
+  val blocksFetcher = Fetcher.caching(
     fetch = (ctx: LedgerExplorerETHClient, hashes: Seq[String]) =>
       hashes.toList.map(_.toHex.right.get).map(ctx.blockByHash).sequence.unsafeToFuture)
-  val blocksByHeightFetcher = Fetcher(
-    config = FetcherConfig.caching(cache),
+  val blocksByHeightFetcher = Fetcher.caching(
     fetch = (ctx: LedgerExplorerETHClient, heights: Seq[Int]) =>
       heights.toList.map(ctx.blockByHeight).sequence.unsafeToFuture)
   implicit val hasIdTransaction: HasId[Transaction, String] = (value: Transaction) => value.hash.hexString
-  val transactionsFetcher = Fetcher(
-    config = FetcherConfig.caching(cache),
+  val transactionsFetcher = Fetcher.caching(
     fetch = (ctx: LedgerExplorerETHClient, hashes: Seq[String]) =>
       hashes.toList.map(_.toHex.right.get).map(ctx.transactionByHash).sequence.unsafeToFuture)
-  val transactionsByAddressFetcer = Fetcher(
-    config = FetcherConfig.caching(cache),
+  val transactionsByAddressFetcer = Fetcher.caching(
     fetch = (ctx: LedgerExplorerETHClient, addresses: Seq[String]) =>
       addresses.toList.map(_.toHex.right.get).map(ctx.transactionsByAddress).sequence.map(_.flatten).unsafeToFuture)
 
