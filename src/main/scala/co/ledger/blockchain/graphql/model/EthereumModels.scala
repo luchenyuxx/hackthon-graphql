@@ -4,7 +4,7 @@ import java.time.Instant
 
 import co.ledger.blockchain.graphql.utils.crypto.Hex
 
-object EthSchema {
+object EthereumModels {
 
   case class Block(
                     hash: Hex,

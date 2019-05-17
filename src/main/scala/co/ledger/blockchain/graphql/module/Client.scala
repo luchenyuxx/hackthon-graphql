@@ -1,7 +1,7 @@
 package co.ledger.blockchain.graphql.module
 
 import cats.effect.IO
-import co.ledger.blockchain.graphql.model.EthSchema.{Balance, Block, Transaction, TransferEvent}
+import co.ledger.blockchain.graphql.model.EthereumModels.{Balance, Block, Transaction, TransferEvent}
 import co.ledger.blockchain.graphql.utils.crypto.Hex
 import io.circe.generic.extras.Configuration
 import io.circe.generic.extras.semiauto.{deriveDecoder, deriveEncoder}
