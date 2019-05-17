@@ -29,10 +29,6 @@ object EthereumSchema {
   private val transactionsFetcher = Fetcher.caching(
     fetch = (ctx: LedgerExplorerETHClient, hashes: Seq[String]) =>
       hashes.toList.map(_.toHex.right.get).map(ctx.transactionByHash).sequence.unsafeToFuture)
-  private val transactionsByAddressFetcer = Fetcher.caching(
-    fetch = (ctx: LedgerExplorerETHClient, addresses: Seq[String]) =>
-      addresses.toList.map(_.toHex.right.get).map(ctx.transactionsByAddress).sequence.map(_.flatten).unsafeToFuture)
-
 
   private val BlockType = ObjectType(
     "Block",
@@ -142,23 +138,11 @@ object EthereumSchema {
         resolve = c => {
           transactionsFetcher.deferSeq(c.arg(Hashes))
         }),
-      Field("transactionsByAddress", ListType(TransactionType),
-        description = Some("Return transactions by address"),
-        arguments = Addresses :: Nil,
-        resolve = c => {
-          transactionsByAddressFetcer.deferSeq(c.arg(Addresses))
-        }),
       Field("transferEventsByTx", ListType(TransferEventType),
         description = Some("Return transfer events of a transaction"),
         arguments = TxHashes :: Nil,
         resolve = c => {
           DeferredValue(transactionsFetcher.deferSeq(c.arg(TxHashes))).map(_.flatMap(_.transferEvents))
-        }),
-      Field("transferEventsByAddress", ListType(TransferEventType),
-        description = Some("Return transfer events of an address"),
-        arguments = Addresses :: Nil,
-        resolve = c => {
-          DeferredValue(transactionsByAddressFetcer.deferSeq(c.arg(Addresses))).map(_.flatMap(_.transferEvents))
         }),
       Field("balance", ListType(BalanceType),
         arguments = Addresses :: Nil,
@@ -171,6 +155,6 @@ object EthereumSchema {
   )
 
   private val schema = Schema(QueryType)
-  private val deferredResolver: DeferredResolver[LedgerExplorerETHClient] = DeferredResolver.fetchers(blocksFetcher, blocksByHeightFetcher, transactionsByAddressFetcer, transactionsFetcher)
+  private val deferredResolver: DeferredResolver[LedgerExplorerETHClient] = DeferredResolver.fetchers(blocksFetcher, blocksByHeightFetcher, transactionsFetcher)
   def execute(query: Document)(client: Client[IO]): IO[Json] = Executor.execute(EthereumSchema.schema, query, new LedgerExplorerETHClient(client), deferredResolver = EthereumSchema.deferredResolver).toIO
 }
