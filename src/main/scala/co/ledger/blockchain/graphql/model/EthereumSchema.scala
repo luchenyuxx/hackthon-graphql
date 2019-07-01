@@ -156,5 +156,5 @@ object EthereumSchema {
 
   private val schema = Schema(QueryType)
   private val deferredResolver: DeferredResolver[LedgerExplorerETHClient] = DeferredResolver.fetchers(blocksFetcher, blocksByHeightFetcher, transactionsFetcher)
-  def execute(query: Document)(client: Client[IO]): IO[Json] = Executor.execute(EthereumSchema.schema, query, new LedgerExplorerETHClient(client), deferredResolver = EthereumSchema.deferredResolver).toIO
+  def execute(query: Document, variables: Json)(client: Client[IO]): IO[Json] = Executor.execute(EthereumSchema.schema, query, new LedgerExplorerETHClient(client), deferredResolver = EthereumSchema.deferredResolver, variables = variables).toIO
 }

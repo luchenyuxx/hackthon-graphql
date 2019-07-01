@@ -9,6 +9,7 @@ import org.http4s.client.Client
 import org.http4s.server.Router
 import org.http4s.server.blaze.BlazeServerBuilder
 import org.http4s.syntax.kleisli._
+import org.http4s.server.middleware.CORS
 
 object Server extends StrictLogging {
   def initialize(config: Config, client: Client[IO])
@@ -18,6 +19,7 @@ object Server extends StrictLogging {
     lazy val internalController = new InternalController(collectorRegistry)
     lazy val graphQLController = new GraphQLController(client)
 
+    val corsConfig = CORS.DefaultCORSConfig
     val controllers = List(
       internalController,
       graphQLController
@@ -27,7 +29,7 @@ object Server extends StrictLogging {
 
     BlazeServerBuilder[IO]
       .bindHttp(config.server.port, config.server.host)
-      .withHttpApp(router)
+      .withHttpApp(CORS(router, corsConfig))
       .serve
   }
 }
